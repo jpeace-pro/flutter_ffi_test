@@ -130,6 +130,8 @@ class _RadarChartCustomPainter extends CustomPainter {
   final bool yDrawLabels;
   final RadarData data;
 
+  // https://www.allaboutcircuits.com/technical-articles/mathematical-construction-and-properties-of-the-smith-chart/#:~:text=Setting%20R%20%3D%200%20will%20result,often%20called%20the%20real%20axis.
+
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
@@ -476,9 +478,11 @@ class _RadarChartCustomPainter extends CustomPainter {
       Canvas canvas, Size size, int axisCount, double radius, Offset center) {
     final x1 = center.dx + radius * cosDeg(_offsetAngle);
     final yLabels = ['0.0', '0.2', '0.5', '1', '2', '5', '30'];
-    for (var i = 1; i <= yLabelCount; i++) {
+    for (var i = 0; i <= yLabelCount; i++) {
       final y1 = center.dy -
           radius / yLabelCount * (yLabelCount - i) * sinDeg(_offsetAngle);
+      // final y1 = center.dy -
+      //     radius / yLabelCount * (yLabelCount - i) * sinDeg(_offsetAngle);
 
       // final textPainter = TextPainter()
       //   ..text = TextSpan(
@@ -492,13 +496,15 @@ class _RadarChartCustomPainter extends CustomPainter {
       //   ..layout();
 
       final textPainter = TextPainter()
-        ..text = TextSpan(text: yLabels[i])
+        ..text = TextSpan(
+            text: yLabels[i],
+            style: TextStyle(color: yLabelColor, fontSize: yLabelSize))
         ..textDirection = TextDirection.ltr
         ..textAlign = TextAlign.center
         ..layout();
 
-      textPainter.paint(
-          canvas, Offset(x1 + webLineWidth, y1 - textPainter.height / 2));
+      textPainter.paint(canvas, Offset(y1 * 2 - (center.dx / 20), center.dy));
+      // canvas, Offset(x1 + webLineWidth, y1 - textPainter.height / 2));
     }
   }
 

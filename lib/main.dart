@@ -148,11 +148,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: SmithChart(
                   webLineWidth: 1,
                   yDrawLabels: true,
+                  yLabelSize: 18,
+                  yLabelColor: Colors.black,
                   data: RadarData(List.of([
                     RadarDataSet(
-                        color: Color.fromARGB(255, 128, 149, 60),
-                        fillColor:
-                            Color.fromARGB(255, 77, 104, 204).withOpacity(0.3),
+                        color: const Color.fromARGB(255, 128, 149, 0),
+                        fillColor: const Color.fromARGB(255, 77, 104, 204)
+                            .withOpacity(0),
                         lineWidth: 1.2,
                         entries: List.of([
                           RadarEntry(210),
