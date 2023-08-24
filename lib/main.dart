@@ -2,6 +2,8 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ffi/ffi.dart';
+import 'package:testffi/smithchart.dart';
+import 'package:testffi/smithchartdata.dart';
 
 class FFIBridge {
   static bool initialize() {
@@ -130,24 +132,65 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('capitalize flutter=${FFIBridge.capitalize('flutter')}',
-                style: TextStyle(fontSize: 40)),
-            Text('1+2=${FFIBridge.add(1, 2)}', style: TextStyle(fontSize: 40)),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            // Text('capitalize flutter=${FFIBridge.capitalize('flutter')}',
+            //     style: TextStyle(fontSize: 40)),
+            // Text('1+2=${FFIBridge.add(1, 2)}', style: TextStyle(fontSize: 40)),
+            // const Text(
+            //   'You have pushed the button this many times:',
+            // ),
+            // Text(
+            //   '$_counter',
+            //   style: Theme.of(context).textTheme.headline4,
+            // ),
+            SizedBox(
+                width: 800,
+                height: 800,
+                child: SmithChart(
+                  webLineWidth: 1,
+                  yDrawLabels: true,
+                  data: RadarData(List.of([
+                    RadarDataSet(
+                        color: Color.fromARGB(255, 128, 149, 60),
+                        fillColor:
+                            Color.fromARGB(255, 77, 104, 204).withOpacity(0.3),
+                        lineWidth: 1.2,
+                        entries: List.of([
+                          RadarEntry(210),
+                          RadarEntry(90),
+                          RadarEntry(150),
+                          RadarEntry(140),
+                          RadarEntry(160),
+                          RadarEntry(150),
+                          RadarEntry(100),
+                          RadarEntry(190),
+                          RadarEntry(200),
+                        ])),
+                    // RadarDataSet(
+                    //     color: const Color(0xFFff4081),
+                    //     fillColor:
+                    //         Color.fromARGB(255, 77, 104, 204).withOpacity(0.2),
+                    //     lineWidth: 1.2,
+                    //     entries: List.of([
+                    //       RadarEntry(120),
+                    //       RadarEntry(160),
+                    //       RadarEntry(115),
+                    //       RadarEntry(115),
+                    //       RadarEntry(210),
+                    //       RadarEntry(120),
+                    //       RadarEntry(220),
+                    //       RadarEntry(100),
+                    //       RadarEntry(220),
+                    //     ]))
+                  ])),
+                ))
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: _incrementCounter,
+      //   tooltip: 'Increment',
+      //   child: const Icon(Icons.add),
+      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
