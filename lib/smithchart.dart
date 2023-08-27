@@ -156,14 +156,14 @@ class _RadarChartCustomPainter extends CustomPainter {
     // j0.2
     canvas.drawArc(
         Rect.fromCenter(
-            center: Offset(size.width, size.height),
-            width: size.width / 2,
-            height: size.height / 2),
-        5 * pi / 5,
-        pi / 1.7,
+            center: Offset(size.width, - size.height * 2),
+            width: size.width / 0.2,
+            height: size.height / 0.2),
+        pi * 0.1255,
+        pi / 2,
         false,
         Paint()
-          ..strokeWidth = 5
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     canvas.drawArc(
         Rect.fromCenter(
@@ -304,7 +304,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius,
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     // 0.2
     canvas.drawCircle(
@@ -312,7 +312,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius * (1 / 1.2), // radius calculated by (1 / (frequency + 1))
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     // 0.5
     canvas.drawCircle(
@@ -320,7 +320,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius * (1 / 1.5),
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     // 1
     canvas.drawCircle(
@@ -328,7 +328,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius * (1 / 2),
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     // 2
     canvas.drawCircle(
@@ -336,7 +336,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius * (1 / 3),
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     // 5
     canvas.drawCircle(
@@ -344,7 +344,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius * (1 / 6),
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
     // 30
     canvas.drawCircle(
@@ -352,7 +352,7 @@ class _RadarChartCustomPainter extends CustomPainter {
         radius * (1 / 31),
         Paint()
           ..color = webLineColor
-          ..strokeWidth = 2
+          ..strokeWidth = webLineWidth
           ..style = PaintingStyle.stroke);
 
     //

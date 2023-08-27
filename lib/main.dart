@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:ffi/ffi.dart';
 import 'package:testffi/smithchart.dart';
 import 'package:testffi/smithchartdata.dart';
+import 'package:testffi/fileread.dart';
 
 class FFIBridge {
   static bool initialize() {
@@ -98,6 +100,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  FutureOr<void> _readFileButton() async {
+    // await FileReader().dlmRead('Users/janaispeace/Desktop/trove/GitHub/flutter_ffi_test/lib/Open_black_cable_85033E_brd.s1p', ' ', 5, 0);
+    await FileReader().smithMeasurement();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -143,8 +150,8 @@ class _MyHomePageState extends State<MyHomePage> {
             //   style: Theme.of(context).textTheme.headline4,
             // ),
             SizedBox(
-                width: 800,
-                height: 800,
+                width: 500,
+                height: 500,
                 child: SmithChart(
                   webLineWidth: 1,
                   yDrawLabels: true,
@@ -183,11 +190,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
+      floatingActionButton: FloatingActionButton(
+        // onPressed: _incrementCounter,
+        onPressed: _readFileButton,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
