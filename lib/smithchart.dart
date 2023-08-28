@@ -156,7 +156,7 @@ class _RadarChartCustomPainter extends CustomPainter {
     // j0.2
     canvas.drawArc(
         Rect.fromCenter(
-            center: Offset(size.width, - size.height * 2),
+            center: Offset(size.width, -size.height * 2),
             width: size.width / 0.2,
             height: size.height / 0.2),
         pi * 0.1255,
@@ -365,9 +365,9 @@ class _RadarChartCustomPainter extends CustomPainter {
     drawData(canvas, axisCount, radius, center);
 
     //
-    // if (xDrawLabels) {
-    //   drawXLabels(canvas, size, axisCount, radius + yLabelSize, center);
-    // }
+    if (xDrawLabels) {
+      drawXLabels(canvas, size, axisCount, radius + yLabelSize, center);
+    }
 
     //
     if (yDrawLabels) {
@@ -473,6 +473,22 @@ class _RadarChartCustomPainter extends CustomPainter {
   //   }
   // }
   // )
+
+  void drawXLabels(
+      Canvas canvas, Size size, int axisCount, double radius, Offset center) {
+    final xLabels = ['0.0', 'j0.2', 'j0.5', 'j1', 'j2', 'j5', 'j30'];
+    // for (var i = 0; i <= 7; i++) {
+    //   final textPainter = TextPainter()
+    //     ..text = TextSpan(
+    //         text: xLabels[i],
+    //         style: TextStyle(color: yLabelColor, fontSize: yLabelSize))
+    //     ..textDirection = TextDirection.ltr
+    //     ..textAlign = TextAlign.center
+    //     ..layout();
+
+    //   textPainter.paint(canvas, Offset(center.dx, center.dy));
+    // }
+  }
 
   void drawYLabels(
       Canvas canvas, Size size, int axisCount, double radius, Offset center) {

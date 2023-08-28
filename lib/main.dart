@@ -154,6 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 500,
                 child: SmithChart(
                   webLineWidth: 1,
+                  xDrawLabels: false,
                   yDrawLabels: true,
                   yLabelSize: 18,
                   yLabelColor: Colors.black,
