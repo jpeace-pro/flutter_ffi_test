@@ -450,30 +450,6 @@ class _RadarChartCustomPainter extends CustomPainter {
   //   }
   // }
 
-  // void drawYLabels(
-  //     Canvas canvas, Size size, int axisCount, double radius, Offset center) {
-  //   final x1 = center.dx + radius * cosDeg(_offsetAngle);
-  //   for (var i = 1; i <= yLabelCount; i++) {
-  //     final y1 = center.dy -
-  //         radius / yLabelCount * (yLabelCount - i) * sinDeg(_offsetAngle);
-
-  //     final textPainter = TextPainter()
-  //       ..text = TextSpan(
-  //           text: yValueFormatter != null
-  //               ? yValueFormatter!
-  //                   .format(yMaximum / yLabelCount * (yLabelCount - i))
-  //               : (yMaximum / yLabelCount * (yLabelCount - i)).toString(),
-  //           style: TextStyle(color: yLabelColor, fontSize: yLabelSize))
-  //       ..textDirection = TextDirection.ltr
-  //       ..textAlign = TextAlign.center
-  //       ..layout();
-
-  //     textPainter.paint(
-  //         canvas, Offset(x1 + webLineWidth, y1 - textPainter.height / 2));
-  //   }
-  // }
-  // )
-
   void drawXLabels(
       Canvas canvas, Size size, int axisCount, double radius, Offset center) {
     final xLabels = ['0.0', 'j0.2', 'j0.5', 'j1', 'j2', 'j5', 'j30'];
@@ -497,19 +473,6 @@ class _RadarChartCustomPainter extends CustomPainter {
     for (var i = 0; i <= yLabelCount; i++) {
       final y1 = center.dy -
           radius / yLabelCount * (yLabelCount - i) * sinDeg(_offsetAngle);
-      // final y1 = center.dy -
-      //     radius / yLabelCount * (yLabelCount - i) * sinDeg(_offsetAngle);
-
-      // final textPainter = TextPainter()
-      //   ..text = TextSpan(
-      //       text: yValueFormatter != null
-      //           ? yValueFormatter!
-      //               .format(yMaximum / yLabelCount * (yLabelCount - i))
-      //           : (yMaximum / yLabelCount * (yLabelCount - i)).toString(),
-      //       style: TextStyle(color: yLabelColor, fontSize: yLabelSize))
-      //   ..textDirection = TextDirection.ltr
-      //   ..textAlign = TextAlign.center
-      //   ..layout();
 
       final textPainter = TextPainter()
         ..text = TextSpan(
@@ -520,11 +483,11 @@ class _RadarChartCustomPainter extends CustomPainter {
         ..layout();
 
       textPainter.paint(canvas, Offset(y1 * 2 - (center.dx / 20), center.dy));
-      // canvas, Offset(x1 + webLineWidth, y1 - textPainter.height / 2));
     }
   }
 
   void drawData(Canvas canvas, int axisCount, double radius, Offset center) {
+    // need to draw each component of the equation in an x y ish type coordinate.
     for (var i = 0; i < data.dataSets.length; i++) {
       final entry = data.dataSets[i];
       final fillPath = Path();

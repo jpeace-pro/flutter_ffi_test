@@ -68,7 +68,7 @@ class FileReader {
     }
   }
 
-  Future<int> smithMeasurement() async {
+  Future<List<double>> smithMeasurement() async {
     // Need to use Complex class
     // https://pub.dev/documentation/quantity/latest/number/Complex-class.html
     // https://www.mathworks.com/help/matlab/ref/j.html
@@ -90,7 +90,7 @@ class FileReader {
 
     // Result from this can be represented in rectangular coordinates: A + jB
     // I think we would then just plot the A and jB components against the graph...now how do we mathematically do that?
-    return 0;
+    return gam;
   }
 
   // Create a function that puts dlmRead and smithMeasurement together and assigns a label

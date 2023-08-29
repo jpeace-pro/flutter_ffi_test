@@ -139,16 +139,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Text('capitalize flutter=${FFIBridge.capitalize('flutter')}',
-            //     style: TextStyle(fontSize: 40)),
-            // Text('1+2=${FFIBridge.add(1, 2)}', style: TextStyle(fontSize: 40)),
-            // const Text(
-            //   'You have pushed the button this many times:',
-            // ),
-            // Text(
-            //   '$_counter',
-            //   style: Theme.of(context).textTheme.headline4,
-            // ),
             SizedBox(
                 width: 500,
                 height: 500,
@@ -170,22 +160,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           RadarEntry(0),
                           RadarEntry(0),
                         ])),
-                    // RadarDataSet(
-                    //     color: const Color(0xFFff4081),
-                    //     fillColor:
-                    //         Color.fromARGB(255, 77, 104, 204).withOpacity(0.2),
-                    //     lineWidth: 1.2,
-                    //     entries: List.of([
-                    //       RadarEntry(120),
-                    //       RadarEntry(160),
-                    //       RadarEntry(115),
-                    //       RadarEntry(115),
-                    //       RadarEntry(210),
-                    //       RadarEntry(120),
-                    //       RadarEntry(220),
-                    //       RadarEntry(100),
-                    //       RadarEntry(220),
-                    //     ]))
                   ])),
                 ))
           ],
