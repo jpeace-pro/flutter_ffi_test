@@ -140,28 +140,31 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-                width: 500,
-                height: 500,
-                child: SmithChart(
-                  webLineWidth: 1,
-                  xDrawLabels: false,
-                  yDrawLabels: true,
-                  yLabelSize: 18,
-                  yLabelColor: Colors.black,
-                  data: RadarData(List.of([
-                    RadarDataSet(
-                        color: const Color.fromARGB(255, 128, 149, 0),
-                        fillColor: const Color.fromARGB(255, 77, 104, 204)
-                            .withOpacity(0),
-                        lineWidth: 1.2,
-                        entries: List.of([
-                          RadarEntry(0),
-                          RadarEntry(0),
-                          RadarEntry(0),
-                          RadarEntry(0),
-                        ])),
-                  ])),
-                ))
+              width: 800,
+              height: 800,
+              // child: ClipOval(
+              child: SmithChart(
+                webLineWidth: 1,
+                xDrawLabels: false,
+                yDrawLabels: true,
+                yLabelSize: 18,
+                yLabelColor: Colors.black,
+                data: RadarData(List.of([
+                  RadarDataSet(
+                      color: const Color.fromARGB(255, 128, 149, 0),
+                      fillColor: const Color.fromARGB(255, 77, 104, 204)
+                          .withOpacity(0),
+                      lineWidth: 1.2,
+                      entries: List.of([
+                        RadarEntry(0),
+                        RadarEntry(0),
+                        RadarEntry(0),
+                        RadarEntry(0),
+                      ])),
+                ])),
+              ),
+              // )
+            )
           ],
         ),
       ),

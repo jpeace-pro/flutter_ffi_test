@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'smithchartdata.dart';
 import 'valueformatter.dart';
@@ -148,218 +149,146 @@ class _RadarChartCustomPainter extends CustomPainter {
 
     // Smith
     // REACTANCE LINES
-    // j0
-    canvas.drawLine(
-        Offset(0, size.height / 2),
-        Offset(size.width, size.height / 2),
-        Paint()..strokeWidth = webLineWidth);
-    // j0.2
+    final xLabels = [-30, -5, -2, -1, -0.5, -0.2, 0.0, 0.2, 0.5, 1, 2, 5, 30];
+    for (var i = 0; i < xLabels.length; i++) {
+      // Zero case
+      if (xLabels[i] == 0.0) {
+        // j0
+        canvas.drawLine(
+            Offset(0, size.height / 2),
+            Offset(size.width, size.height / 2),
+            Paint()..strokeWidth = webLineWidth);
+      } else {
+        // Positive Arcs
+        canvas.drawArc(
+            Rect.fromCenter(
+                center:
+                    Offset(size.width, center.dy - ((center.dy / xLabels[i]))),
+                width: size.width / xLabels[i],
+                height: size.height / xLabels[i]),
+            pi,
+            2 * pi,
+            false,
+            Paint()
+              ..strokeWidth = webLineWidth
+              ..style = PaintingStyle.stroke);
+        // Negative
+        canvas.drawArc(
+            Rect.fromCenter(
+                center:
+                    Offset(size.width, center.dy + ((center.dy / xLabels[i]))),
+                width: size.width / xLabels[i],
+                height: size.height / xLabels[i]),
+            pi,
+            2 * pi,
+            false,
+            Paint()
+              ..strokeWidth = webLineWidth
+              ..style = PaintingStyle.stroke);
+      }
+    }
+
+    void calculateIntersection(Point p1, Point p2, r1, r2) {
+      var x1 = p1.x; // center of circle 1
+      var y1 = p1.y;
+      var x2 = p2.x;
+      var y2 = p2.y;
+
+      var distance = sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
+      if (distance == r1 + r2 || distance < r1 + r2) {
+        // there is a single intersection point
+        // or
+        // there are two intersection points
+        var a = (pow(r1, 2) - pow(r2, 2) + pow(distance, 2)) / (2 * distance);
+        var b = (pow(r2, 2) - pow(r1, 2) + pow(distance, 2)) / (2 * distance);
+        var h = sqrt(pow(r1, 2) - pow(a, 2));
+        var x5 = x1 + (a / distance) * (x2 - x1);
+        var y5 = y1 + (a / distance) * (y2 - y1);
+        var x3 = x5 - ((h * (y2 - y1)) / distance);
+        var y3 = y5 + ((h * (x2 - x1)) / distance);
+        var x4 = x5 + ((h * (y2 - y1)) / distance);
+        var y4 = y5 - ((h * (x2 - x1)) / distance);
+
+        canvas.drawPoints(
+            PointMode.points,
+            // [const Offset(0, 0), Offset(1, 2), Offset(200, 600)],
+            [Offset(x5, y5), Offset(x4, y4), Offset(x3, y3)],
+            Paint()
+              ..strokeWidth = 40
+              ..color = Colors.purpleAccent
+              ..strokeCap = StrokeCap.round);
+      }
+    }
+
+    calculateIntersection(
+        Point(((2 * center.dx) - (center.dx * (1 / (1 + 0.7)))),
+            center.dy), //ylabels RESISTANCE
+        Point(2 * center.dx,
+            center.dy + ((center.dy / -0.63))), //xlabels REACTANCE
+        radius * (1 / (1 + 0.71)),
+        (size.width / 0.63) / 2);
+
+    // calculateIntersection(Point(size.width, center.dy + ((center.dy / 2))),
+    //     Point(((2 * radius) - (radius * (1 / (1 + 5)))), center.dy), 1, 2);
+
+    // var paath = Path();
+    // paath.addOval(Rect.fromCenter(
+    //     center: Offset(size.width, center.dy + ((center.dy / -0.63))),
+    //     width: size.width / 0.63,
+    //     height: size.height / 0.63));
+    // canvas.drawPath(
+    //     paath,
+    //     Paint()
+    //       ..strokeWidth = 10
+    //       ..color = Colors.blue
+    //       ..style = PaintingStyle.stroke);
+    // var paaath = Path();
+    // paaath.addOval(Rect.fromCenter(
+    //     // center: Offset((center.dx - (center.dx / (1 + 0.7))), center.dy),
+    //     center: Offset(center.dx + ((1 / (1 + 0.7))), center.dy),
+    //     width: (size.width / (1 + 0.7)),
+    //     height: (size.width / (1 + 0.7))));
+    // canvas.drawPath(
+    //     paaath,
+    //     Paint()
+    //       ..strokeWidth = 10
+    //       ..color = Colors.red
+    //       ..style = PaintingStyle.stroke);
+
+    // final shape = Path.combine(PathOperation.intersect, paath, paaath);
+    // canvas.clipPath(shape);
+
     canvas.drawArc(
         Rect.fromCenter(
-            center: Offset(size.width, -size.height * 2),
-            width: size.width / 0.2,
-            height: size.height / 0.2),
-        pi * 0.1255,
-        pi / 2,
+            center: Offset(size.width, center.dy + ((center.dy / -0.63))),
+            width: size.width / 0.63,
+            height: size.height / 0.63), // take the absolute value i guess
+        pi,
+        2 * pi,
         false,
         Paint()
-          ..strokeWidth = webLineWidth
+          ..strokeWidth = 10
+          ..color = Colors.blue
           ..style = PaintingStyle.stroke);
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height * 3),
-            width: size.width / 0.2,
-            height: size.height / 0.2),
-        5 * pi / 3.638,
-        pi / 1.7,
-        false,
+    canvas.drawCircle(
+        Offset(((2 * radius) - (radius * (1 / (1 + 0.7)))), center.dy),
+        radius * (1 / (1 + 0.7)),
         Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // j0.5
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, -size.height / 2),
-            width: size.width / 0.5,
-            height: size.height / 0.5),
-        pi / 0.3,
-        2 * pi / 1.368,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 0.667),
-            width: size.width / 0.5,
-            height: size.height / 0.5),
-        pi / 0.312,
-        2 * pi / 2.5,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // j1
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 900),
-            width: size.width,
-            height: size.height),
-        pi / 2,
-        2 * pi / 4,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 1),
-            width: size.width,
-            height: size.height),
-        pi / 0.358,
-        2 * pi / 2.5,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // j2
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 4),
-            width: size.width / 2,
-            height: size.height / 2),
-        pi / 2,
-        2 * pi / 2.84,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 1.336),
-            width: size.width / 2,
-            height: size.height / 2),
-        pi / 0.358,
-        2 * pi / 2.5,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // j5
-    canvas.drawArc(
-        // rect,
-        // Rect.fromPoints(Offset(size.width / 2, size.height / 1000),
-        //     Offset(size.width, size.height / 2)),
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 2.5),
-            width: size.width / 5,
-            height: size.height / 5),
-        pi / 2, // rotates the arc
-        2 * pi / 2.29, // increases amount of arc
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    canvas.drawArc(
-        // rect,
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 1.67),
-            width: size.width / 5,
-            height: size.height / 5),
-        pi / 0.38, // rotates the arc
-        2 * pi / 2.29,
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // j30
-    canvas.drawArc(
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 2.07),
-            width: size.width / 30,
-            height: size.height / 30),
-        pi / 2, // rotates the arc
-        2 * pi, // increases amount of arc
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    canvas.drawArc(
-        // rect,
-        Rect.fromCenter(
-            center: Offset(size.width, size.height / 1.935),
-            width: size.width / 30,
-            height: size.height / 30),
-        pi / 0.377, // rotates the arc
-        2 * pi, //
-        false,
-        Paint()
-          ..strokeWidth = webLineWidth
+          ..color = Colors.red
+          ..strokeWidth = 10
           ..style = PaintingStyle.stroke);
 
     // RESISTANCE LINES
-    // Outer 1 0.0
-    canvas.drawCircle(
-        center,
-        radius,
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // 0.2
-    canvas.drawCircle(
-        Offset(size.width / 1.71, size.height / 2),
-        radius * (1 / 1.2), // radius calculated by (1 / (frequency + 1))
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // 0.5
-    canvas.drawCircle(
-        Offset(size.width / 1.5, size.height / 2),
-        radius * (1 / 1.5),
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // 1
-    canvas.drawCircle(
-        Offset(size.width / 1.33, size.height / 2),
-        radius * (1 / 2),
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // 2
-    canvas.drawCircle(
-        Offset(size.width / 1.2, size.height / 2),
-        radius * (1 / 3),
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // 5
-    canvas.drawCircle(
-        Offset(size.width / 1.087, size.height / 2),
-        radius * (1 / 6),
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-    // 30
-    canvas.drawCircle(
-        Offset(size.width / 1.015, size.height / 2),
-        radius * (1 / 31),
-        Paint()
-          ..color = webLineColor
-          ..strokeWidth = webLineWidth
-          ..style = PaintingStyle.stroke);
-
-    //
-    // drawGuideLines(canvas, axisCount, radius, center);
-
-    //
-    // drawAxis(canvas, axisCount, radius, center);
+    final yLabels = [0.0, 0.2, 0.5, 1, 2, 5, 30];
+    for (var i = 0; i <= yLabelCount; i++) {
+      canvas.drawCircle(
+          Offset(((2 * radius) - (radius * (1 / (1 + yLabels[i])))), center.dy),
+          radius * (1 / (1 + yLabels[i])),
+          Paint()
+            ..color = webLineColor
+            ..strokeWidth = webLineWidth
+            ..style = PaintingStyle.stroke);
+    }
 
     //
     drawData(canvas, axisCount, radius, center);
@@ -427,28 +356,6 @@ class _RadarChartCustomPainter extends CustomPainter {
             ..color = webLineColor);
     }
   }
-
-  // void drawXLabels(
-  //     Canvas canvas, Size size, int axisCount, double radius, Offset center) {
-  //   for (var i = 0; i < (xLabels?.length ?? 0); i++) {
-  //     final startAngle = _offsetAngle - 360 / axisCount * i;
-  //     final x1 = center.dx + radius * cosDeg(startAngle);
-  //     final y1 = center.dy - radius * sinDeg(startAngle);
-
-  //     final textPainter = TextPainter()
-  //       ..text = TextSpan(
-  //           text: xLabels![i],
-  //           style: TextStyle(color: xLabelColor, fontSize: xLabelSize))
-  //       ..textDirection = TextDirection.ltr
-  //       ..textAlign = TextAlign.center
-  //       ..layout();
-
-  //     textPainter.paint(
-  //         canvas,
-  //         modifiedOffset(
-  //             size, Offset(x1, y1), textPainter.width, textPainter.height));
-  //   }
-  // }
 
   void drawXLabels(
       Canvas canvas, Size size, int axisCount, double radius, Offset center) {
