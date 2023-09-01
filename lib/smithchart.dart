@@ -188,7 +188,17 @@ class _RadarChartCustomPainter extends CustomPainter {
       }
     }
 
-    void calculateIntersection(Point p1, Point p2, r1, r2) {
+    void calculateIntersection(resistance, reactance) {
+      var p1 = Point(
+          ((2 * center.dx) - (center.dx * (1 / (1 + resistance)))), center.dy);
+      var p2 = Point(
+          2 * center.dx,
+          center.dy +
+              ((center.dy / reactance))); // flip sign for positive or negative
+
+      var r1 = center.dx * (1 / (1 + resistance));
+      var r2 = (center.dx / reactance.abs());
+
       var x1 = p1.x; // center of circle 1
       var y1 = p1.y;
       var x2 = p2.x;
@@ -211,52 +221,16 @@ class _RadarChartCustomPainter extends CustomPainter {
 
         canvas.drawPoints(
             PointMode.points,
-            // [const Offset(0, 0), Offset(1, 2), Offset(200, 600)],
             [Offset(x5, y5), Offset(x4, y4), Offset(x3, y3)],
             Paint()
               ..strokeWidth = 40
               ..color = Colors.purpleAccent
               ..strokeCap = StrokeCap.round);
+        // include conditions of when to plot each specific one
       }
     }
 
-    calculateIntersection(
-        Point(((2 * center.dx) - (center.dx * (1 / (1 + 0.7)))),
-            center.dy), //ylabels RESISTANCE
-        Point(2 * center.dx,
-            center.dy + ((center.dy / -0.63))), //xlabels REACTANCE
-        radius * (1 / (1 + 0.71)),
-        (size.width / 0.63) / 2);
-
-    // calculateIntersection(Point(size.width, center.dy + ((center.dy / 2))),
-    //     Point(((2 * radius) - (radius * (1 / (1 + 5)))), center.dy), 1, 2);
-
-    // var paath = Path();
-    // paath.addOval(Rect.fromCenter(
-    //     center: Offset(size.width, center.dy + ((center.dy / -0.63))),
-    //     width: size.width / 0.63,
-    //     height: size.height / 0.63));
-    // canvas.drawPath(
-    //     paath,
-    //     Paint()
-    //       ..strokeWidth = 10
-    //       ..color = Colors.blue
-    //       ..style = PaintingStyle.stroke);
-    // var paaath = Path();
-    // paaath.addOval(Rect.fromCenter(
-    //     // center: Offset((center.dx - (center.dx / (1 + 0.7))), center.dy),
-    //     center: Offset(center.dx + ((1 / (1 + 0.7))), center.dy),
-    //     width: (size.width / (1 + 0.7)),
-    //     height: (size.width / (1 + 0.7))));
-    // canvas.drawPath(
-    //     paaath,
-    //     Paint()
-    //       ..strokeWidth = 10
-    //       ..color = Colors.red
-    //       ..style = PaintingStyle.stroke);
-
-    // final shape = Path.combine(PathOperation.intersect, paath, paaath);
-    // canvas.clipPath(shape);
+    calculateIntersection(0.7, -0.63);
 
     canvas.drawArc(
         Rect.fromCenter(
